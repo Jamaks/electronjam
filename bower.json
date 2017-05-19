@@ -1,0 +1,25 @@
+{
+  "name": "electronjam",
+  "description": "electronjam map app",
+  "main": "index.js",
+  "authors": [
+    "Jamak"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "electron-app",
+    "electron"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4"
+  }
+}
