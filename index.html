@@ -7,8 +7,37 @@
     <script src="public/vendors.min.js"></script>
     <script src="public/app.min.js"></script>
     <script>require('electron-connect').client.create()</script>
-    <div ng-controller="HomeController">
-    	{{page.title}}
+    <div ng-controller="HomeController as ctrl">
+    	<!--{{page.title}}-->
+        <md-menu>
+      <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ctrl.openMenu($mdMenu, $event)">
+        <md-icon md-svg-src="assets/icon/ic_menu_black_24px.svg"></md-icon>
+      </md-button>
+      <md-menu-content width="4">
+        <md-menu-item>
+          <md-button ng-click="ctrl.redial($event)">
+            Redial
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button disabled="disabled" ng-click="ctrl.checkVoicemail()">
+            Check voicemail
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+          <md-button ng-click="ctrl.toggleNotifications()">
+            {{ctrl.notificationsEnabled ? 'Disable' : 'Enable' }} notifications
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="ctrl.close()">
+            Close
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
     </div>
 </body>
 </html>

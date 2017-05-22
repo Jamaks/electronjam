@@ -33,16 +33,23 @@ gulp.task('app-bundle', function () {
         )
         .pipe(sourcemaps.init())
         .pipe(concat('app.min.js'))
-        .pipe(uglify())
+       // .pipe(uglify())
         .pipe(sourcemaps.write('maps/'))
         .pipe(gulp.dest('public/'));
 });
 gulp.task('vendor-bundle', ['bower-restore'], function () {
-    return gulp.src(mainBowerFiles({ filter: '**/*.js' }))
-        .pipe(sourcemaps.init())
+    var bowersrc="bower_components";
+    return gulp.src([
+        bowersrc+'/angular/angular.js',
+        bowersrc+'/angular-animate/angular-animate.js',
+        bowersrc+'/angular-aria/angular-aria.js',
+        bowersrc+'/angular-messages/angular-messages.js',
+        bowersrc+'/angular-material/angular-material.js',
+        ])
+        //.pipe(sourcemaps.init())
         .pipe(concat('vendors.min.js'))
         .pipe(uglify())
-        .pipe(sourcemaps.write('maps/'))
+      //  .pipe(sourcemaps.write('maps/'))
         .pipe(gulp.dest('public/'));
 });
 gulp.task("css", ["bower-restore"], function () {
@@ -61,7 +68,7 @@ gulp.task('serve', function () {
   electron.start();
 
   // Restart browser process
-//    gulp.watch('public/*js', electron.restart);
+   gulp.watch('index.js', electron.restart);
 
   gulp.watch('public/*js', electron.reload);
  gulp.watch('public/*css', electron.reload);
