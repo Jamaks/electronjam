@@ -20,6 +20,11 @@ $ npm start
 ```
 $ gulp serve
 ```
+### Run on electron connect & dev watch
+
+```
+$ gulp multi-build
+```
 
 ### Build
 

@@ -25,8 +25,7 @@
     "electron"
   ],
   "dependencies": {
-    "electron-debug": "^1.0.0",
-    "angular": "^1.6.4"
+    "electron-debug": "^1.0.0"
   },
   "devDependencies": {
     "del": "^2.2.2",
@@ -39,9 +38,11 @@
     "gulp-bundle-assets": "2.28.0",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
+    "gulp-csso": "^3.0.0",
     "gulp-livereload": "^3.8.1",
     "gulp-multi-process": "^1.2.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^2.1.2",
     "gulp-watch": "^4.3.11",

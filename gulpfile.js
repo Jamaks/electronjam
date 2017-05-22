@@ -5,10 +5,12 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var bower = require('gulp-bower');
-var cssnano = require('gulp-cssnano');
 var watch = require('gulp-watch');
 var gulpMultiProcess = require('gulp-multi-process');
 var electron = require('electron-connect').server.create();
+var sass = require('gulp-sass');
+const sassfiles = 'src/**/*.scss';
+
 
 gulp.task('clean', function (cb) {
     del([
@@ -19,14 +21,6 @@ gulp.task('clean', function (cb) {
 
 
 
-gulp.task('vendor-bundle', ['bower-restore'], function () {
-    return gulp.src(mainBowerFiles({ filter: '**/*.js' }))
-        .pipe(sourcemaps.init())
-        .pipe(concat('vendors.min.js'))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('maps/'))
-        .pipe(gulp.dest('public/'));
-});
 gulp.task('bower-restore', function () {
     return bower();
 });
@@ -43,19 +37,24 @@ gulp.task('app-bundle', function () {
         .pipe(sourcemaps.write('maps/'))
         .pipe(gulp.dest('public/'));
 });
-
-gulp.task("css", ["bower-restore"], function () {
-    return gulp.src(mainBowerFiles({ filter: '**/*.css' }).concat('src/**/*.css'))
+gulp.task('vendor-bundle', ['bower-restore'], function () {
+    return gulp.src(mainBowerFiles({ filter: '**/*.js' }))
         .pipe(sourcemaps.init())
-        .pipe(concat('site.min.css'))
-        .pipe(cssnano())
+        .pipe(concat('vendors.min.js'))
+        .pipe(uglify())
         .pipe(sourcemaps.write('maps/'))
         .pipe(gulp.dest('public/'));
 });
+gulp.task("css", ["bower-restore"], function () {
+    return gulp.src(sassfiles)
+  .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+  .pipe(concat('site.min.css'))
+  .pipe(gulp.dest('./public'));
+});
 
 gulp.task('watch', function () {
-     gulp.watch('src/js/app.js', ['app-bundle']);
-  
+     gulp.watch('src/js/**/*.js', ['app-bundle']);
+     gulp.watch('src/style/**/*.scss', ['css']);
 });
 gulp.task('serve', function () {
   // Start browser process
@@ -65,7 +64,7 @@ gulp.task('serve', function () {
 //    gulp.watch('public/*js', electron.restart);
 
   gulp.watch('public/*js', electron.reload);
-
+ gulp.watch('public/*css', electron.reload);
     gulp.watch('*.html', electron.reload);
 
 });
@@ -84,4 +83,4 @@ gulp.task('multi-build', function (cb) {
   
 });
 
-gulp.task('build', ['clean','vendor-bundle', 'app-bundle', 'css']);
+gulp.task('build', ['vendor-bundle', 'app-bundle', 'css']);
